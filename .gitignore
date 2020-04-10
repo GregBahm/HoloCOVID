@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs
+/HoloCOVIDUnity/.vs/HoloCOVIDUnity/v15
+/HoloCOVIDUnity/Library
+/HoloCOVIDUnity/Logs
+/HoloCOVIDUnity/obj/Debug
+/HoloCOVIDUnity/Temp
+*.sln
+*.csproj
+/HoloCOVIDUnity/Packages
