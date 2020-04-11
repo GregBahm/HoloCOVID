@@ -2,6 +2,11 @@
 {
 	Properties
 	{
+		_Globification("Globification", Range(0, 1)) = 0
+		_GlobeHeight("Globe Height", Range(-1, 1)) = 1
+		_GlobeRadius("Globe Radius", Float) = 1
+		_TesterX("TesterX", float) = 1
+		_TesterY("TesterY", float) = 1
 	}
 	SubShader
 	{
@@ -34,6 +39,25 @@
 
 			float4x4 _MasterTransform;
 			float _MaxValue;
+			float _Globification; 
+			float _GlobeRadius;
+			float _GlobeHeight;
+			float _TesterX;
+			float _TesterY;
+			float _AnotherTester;
+			
+			float3 GetSphereizedPoint(float3 basePos)
+			{
+				float3 spherePos = basePos.zyx;
+				spherePos.x *= _TesterX;
+				spherePos.z *= _TesterY;
+				spherePos.y = _GlobeRadius + basePos.y * _GlobeHeight;
+				float sphericalX = spherePos.y * cos(spherePos.x) * cos(spherePos.z);
+				float sphericalY = spherePos.y * cos(spherePos.x) * sin(spherePos.z);
+				float sphericalZ = spherePos.y * sin(spherePos.x);
+				float3 sphericalPos = float3(sphericalY, sphericalZ, sphericalX);
+				return lerp(basePos, sphericalPos, _Globification);
+			}
 
 			float3 GetObjPos(float3 cubePos, PopulationPoint datum)
 			{
@@ -48,7 +72,8 @@
 				PopulationPoint datum = _PopulationData[inst];
 
 				float3 objPoint = GetObjPos(v.vertex, datum);
-				float3 worldPos = mul(_MasterTransform, float4(objPoint, 1));
+				float3 sphereizedPoint = GetSphereizedPoint(objPoint);
+				float3 worldPos = mul(_MasterTransform, float4(sphereizedPoint, 1));
 
                 v2f o;
 

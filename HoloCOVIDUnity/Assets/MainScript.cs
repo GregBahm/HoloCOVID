@@ -30,7 +30,6 @@ public class MainScript : MonoBehaviour
     void Start()
     {
         PopulationDataPoint[] populationData = GetPopulationData().ToArray();
-        //populationData = populationData.Take(16384).ToArray();
         instanceCount = populationData.Length;
         maxPopValue = populationData.Max(item => item.Population);
         populationDataBuffer = GetPopulationDataBuffer(populationData);
