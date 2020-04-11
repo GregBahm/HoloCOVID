@@ -48,7 +48,7 @@
 				PopulationPoint datum = _PopulationData[inst];
 
 				float3 objPoint = GetObjPos(v.vertex, datum);
-				float3 worldPos = mul(_MasterTransform, objPoint);
+				float3 worldPos = mul(_MasterTransform, float4(objPoint, 1));
 
                 v2f o;
 
@@ -56,12 +56,12 @@
 				o.popVal = datum.populationValue / _MaxValue;
 				o.objSpace = v.vertex;
                 return o;
-            }
+            } 
 
             fixed4 frag (v2f i) : SV_Target
             {
 				float yVal = i.objSpace.y + .5;
-				return pow(i.popVal * yVal, .1);
+				return pow(i.popVal * yVal, .2);
             }
             ENDCG
         }

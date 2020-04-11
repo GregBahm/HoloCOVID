@@ -24,11 +24,14 @@ public class MainScript : MonoBehaviour
     private MeshRenderer meshRenderer;
     private ComputeBuffer populationDataBuffer;
 
+    private int instanceCount;
     private float maxPopValue;
 
     void Start()
     {
         PopulationDataPoint[] populationData = GetPopulationData().ToArray();
+        //populationData = populationData.Take(16384).ToArray();
+        instanceCount = populationData.Length;
         maxPopValue = populationData.Max(item => item.Population);
         populationDataBuffer = GetPopulationDataBuffer(populationData);
     }
@@ -51,7 +54,7 @@ public class MainScript : MonoBehaviour
         mat.SetBuffer("_PopulationData", populationDataBuffer);
         mat.SetFloat("_MaxValue", maxPopValue);
         mat.SetMatrix("_MasterTransform", transform.localToWorldMatrix);
-        Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, 360 * 180);
+        Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, instanceCount);
     }
 
     private IEnumerable<PopulationDataPoint> GetPopulationData()
