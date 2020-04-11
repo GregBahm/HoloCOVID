@@ -39,6 +39,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Lut:
+        m_Texture: {fileID: 2800000, guid: 92a3ac34922d2c845b3752cef74aec29, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 607058c297b2de74c8f4a1c02e7f0610, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -61,8 +65,9 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _GlobeHeight: 0.278
-    - _GlobeRadius: 1
+    - _FlatMapHeight: 0.144
+    - _GlobeHeight: 0.378
+    - _GlobeRadius: 0.5
     - _Globification: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5

@@ -21,6 +21,11 @@ public class MainScript : MonoBehaviour
     [SerializeField]
     private Mesh mesh;
 
+    [SerializeField]
+    private Transform flatMapTransform;
+    [SerializeField]
+    private Transform globeMapTransform;
+
     private MeshRenderer meshRenderer;
     private ComputeBuffer populationDataBuffer;
 
@@ -52,7 +57,8 @@ public class MainScript : MonoBehaviour
     {
         mat.SetBuffer("_PopulationData", populationDataBuffer);
         mat.SetFloat("_MaxValue", maxPopValue);
-        mat.SetMatrix("_MasterTransform", transform.localToWorldMatrix);
+        mat.SetMatrix("_FlatMapTransform", flatMapTransform.localToWorldMatrix);
+        mat.SetMatrix("_GlobeTransform", globeMapTransform.localToWorldMatrix);
         Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, instanceCount);
     }
 
