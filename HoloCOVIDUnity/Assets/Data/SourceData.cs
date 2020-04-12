@@ -9,6 +9,7 @@ public class SourceData
     public int Rows { get; }
     public int Columns { get; }
     private readonly ReadOnlyDictionary<int, Nation> nationTable;
+    public Nation[] Nations { get; }
 
     public ReadOnlyCollection<CellData> CellsToRender { get; }
 
@@ -29,6 +30,7 @@ public class SourceData
         int[,] nationData = LoadInts(nationIdsMapSource);
         CellsToRender = GetGridData(populationData, ageData, nationData).ToList().AsReadOnly();
         PeakCellPopulation = CellsToRender.Max(item => item.Population);
+        Nations = nationTable.Values.ToArray();
     }
 
     private float[,] LoadFloats(string dataTable)

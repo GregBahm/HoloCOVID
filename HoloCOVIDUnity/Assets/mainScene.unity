@@ -347,6 +347,7 @@ MonoBehaviour:
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   flatMapTransform: {fileID: 1730199755}
   globeMapTransform: {fileID: 1704233998}
+  NationToHighlight: 0
 --- !u!4 &1066192338
 Transform:
   m_ObjectHideFlags: 0

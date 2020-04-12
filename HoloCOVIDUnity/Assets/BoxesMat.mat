@@ -65,8 +65,8 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FlatMapHeight: 0.144
-    - _GlobeHeight: 0.378
+    - _FlatMapHeight: 0.307
+    - _GlobeHeight: 0.244
     - _GlobeRadius: 0.5
     - _Globification: 1
     - _GlossMapScale: 1

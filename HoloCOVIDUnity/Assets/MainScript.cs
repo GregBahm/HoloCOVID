@@ -31,6 +31,9 @@ public class MainScript : MonoBehaviour
 
     private SourceData data;
 
+    [Range(0, 249)]
+    public int NationToHighlight = 0;
+
     void Start()
     {
         data = dataLoader.GetData();
@@ -56,6 +59,9 @@ public class MainScript : MonoBehaviour
         mat.SetFloat("_MaxValue", data.PeakCellPopulation);
         mat.SetMatrix("_FlatMapTransform", flatMapTransform.localToWorldMatrix);
         mat.SetMatrix("_GlobeTransform", globeMapTransform.localToWorldMatrix);
+
+        int idToHlighlight = NationToHighlight == 0 ? -1 : data.Nations[NationToHighlight - 1].Id;
+        mat.SetInt("_NationToHighlight", idToHlighlight);
         Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, data.CellsToRender.Count);
     }
 }

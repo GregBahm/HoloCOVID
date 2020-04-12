@@ -21,6 +21,6 @@
 
     public BufferDataPoint GetBufferDatum()
     {
-        return new BufferDataPoint(X, Y, Population);
+        return new BufferDataPoint(X, Y, Population, Nation.Id);
     }
 }

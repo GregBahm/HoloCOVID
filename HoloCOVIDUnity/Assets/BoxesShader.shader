@@ -27,6 +27,7 @@
 				float xOffset;
 				float zOffset;
 				float populationValue;
+				int nationId;
 			};
 
             struct v2f
@@ -36,6 +37,7 @@
                 float4 vertex : SV_POSITION;
 				float3 normal : NORMAL;
 				float3 flatMapPosition : TEXCOORD2;
+				bool highlighting : TEXCOORD3;
             };
 
 			StructuredBuffer<PopulationPoint> _PopulationData;
@@ -46,6 +48,7 @@
 			float _Globification; 
 			float _GlobeHeight;
 			float _FlatMapHeight;
+			int _NationToHighlight;
 
 			#define PI 3.141
 			
@@ -88,6 +91,7 @@
 				o.objSpace = v.vertex + float3(0, .5, 0);
 				o.normal = v.normal;
 				o.flatMapPosition = basePoint;
+				o.highlighting = datum.nationId == _NationToHighlight;
                 return o;
             } 
 
@@ -95,18 +99,11 @@
             {
 				float lutVal = i.popVal * i.objSpace.y;
 				float hmm = lutVal * .5 + .5;
-				float someVal = pow(lutVal, .1);
-
 				float zorp = pow(lutVal, .3);
 				float anotherInterestingValue = lerp(zorp, hmm, saturate(i.normal.y));
-
-				float someOtherVal = pow(lutVal, 2);
-				float3 col = float3(someOtherVal, someVal, someVal + .5);
-				col = lerp(col.zyx, someVal, saturate(i.normal.y));
-
 				float3 background = lerp(float3(0, 0, 0), float3(1, 0, .5), i.flatMapPosition.z + .5) ;
-				//background = pow(saturate(background), 2);
-				col = lerp(anotherInterestingValue, background, saturate(-i.normal.y));
+				float3 col = lerp(anotherInterestingValue, background, saturate(-i.normal.y));
+				col += col * float3(-1, .75, 2) * i.highlighting;
 				return float4(col, 1);
             }
             ENDCG
