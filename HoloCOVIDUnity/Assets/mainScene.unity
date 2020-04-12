@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 1066192338}
   - component: {fileID: 1066192337}
   - component: {fileID: 1066192336}
+  - component: {fileID: 1066192339}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -341,8 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsSource: {fileID: 1704233996}
-  populationDataSource: {fileID: 4900000, guid: c83ce78fccff7e742bd790e09ae570dd,
-    type: 3}
+  dataLoader: {fileID: 1066192339}
   mat: {fileID: 2100000, guid: bc219cf86bb1dec4dab6a2a9cd3ada05, type: 2}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   flatMapTransform: {fileID: 1730199755}
@@ -361,6 +361,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1066192339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066192335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c294a3b8840bbc04aa0793234a39c80a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rows: 180
+  columns: 360
+  populationMap: {fileID: 4900000, guid: c83ce78fccff7e742bd790e09ae570dd, type: 3}
+  ageMaps:
+  - {fileID: 4900000, guid: d5a25664e35761c47ba6206784391b74, type: 3}
+  - {fileID: 4900000, guid: 1c1a262352f1f954c948c5a6f274cfb8, type: 3}
+  - {fileID: 4900000, guid: 8cd1f9e3a8cc8b641aba66e194dc67c0, type: 3}
+  - {fileID: 4900000, guid: 1d9078aca95be3d49ba164d0d11a456b, type: 3}
+  - {fileID: 4900000, guid: 714a38669254e77499e34c432145d8d0, type: 3}
+  - {fileID: 4900000, guid: 9a120c3a2722eb649a4ade5ffa9c593f, type: 3}
+  - {fileID: 4900000, guid: 68388e3ee42a4ea4eaea23f8ff846188, type: 3}
+  - {fileID: 4900000, guid: adb2f3c0f71119241a6f5e9e59f29dc8, type: 3}
+  - {fileID: 4900000, guid: 3a62a2d041298304bab1ed7053c9d55f, type: 3}
+  - {fileID: 4900000, guid: 711be0e34d7b5ed45b3dcc51cf6064c8, type: 3}
+  - {fileID: 4900000, guid: 3362af8f00bf6014ca154ee6a5cbe7db, type: 3}
+  - {fileID: 4900000, guid: c7f432e2b6864ca42945f46d07ee752d, type: 3}
+  - {fileID: 4900000, guid: 6b421a9efb81f7c4ba207eeb26109cc0, type: 3}
+  - {fileID: 4900000, guid: 0232434ed782a6d4eaa758dde86a86b8, type: 3}
+  - {fileID: 4900000, guid: 2c8170def6ea17b4a8b89c8c3cd2b289, type: 3}
+  - {fileID: 4900000, guid: 8b58b39f74fcd944c8ea8b1a8c48fd78, type: 3}
+  - {fileID: 4900000, guid: 4c0b666cecf42104d94439f01a368e54, type: 3}
+  - {fileID: 4900000, guid: 77023dd26dda81846824557607198c20, type: 3}
+  nationIdsMap: {fileID: 4900000, guid: b1ff906afb5f5b345b4a64073b5ce285, type: 3}
+  nationIdsTable: {fileID: 4900000, guid: 9f0e7afbb4391b9468fba4701a2ad817, type: 3}
 --- !u!114 &1387034112 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1327011224287194763, guid: 3907758b9f519374e9400448d619b310,
@@ -492,7 +528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1877870378}
   m_Layer: 0
-  m_Name: Main
+  m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,7 +13,7 @@ public class MainScript : MonoBehaviour
     private MeshRenderer boundsSource;
 
     [SerializeField]
-    private TextAsset populationDataSource;
+    private DataLoader dataLoader;
 
     [SerializeField]
     private Material mat;
@@ -29,15 +29,12 @@ public class MainScript : MonoBehaviour
     private MeshRenderer meshRenderer;
     private ComputeBuffer populationDataBuffer;
 
-    private int instanceCount;
-    private float maxPopValue;
+    private SourceData data;
 
     void Start()
     {
-        PopulationDataPoint[] populationData = GetPopulationData().ToArray();
-        instanceCount = populationData.Length;
-        maxPopValue = populationData.Max(item => item.Population);
-        populationDataBuffer = GetPopulationDataBuffer(populationData);
+        data = dataLoader.GetData();
+        populationDataBuffer = GetPopulationDataBuffer();
     }
 
     private void OnDestroy()
@@ -45,10 +42,10 @@ public class MainScript : MonoBehaviour
         populationDataBuffer.Dispose();
     }
 
-    private ComputeBuffer GetPopulationDataBuffer(PopulationDataPoint[] populationData)
+    private ComputeBuffer GetPopulationDataBuffer()
     {
-        int stride = sizeof(float) + sizeof(float) + sizeof(float);
-        ComputeBuffer ret = new ComputeBuffer(populationData.Length, stride);
+        BufferDataPoint[] populationData = data.CellsToRender.Select(item => item.GetBufferDatum()).ToArray();
+        ComputeBuffer ret = new ComputeBuffer(populationData.Length, BufferDataPoint.Stride);
         ret.SetData(populationData);
         return ret;
     }
@@ -56,43 +53,9 @@ public class MainScript : MonoBehaviour
     private void Update()
     {
         mat.SetBuffer("_PopulationData", populationDataBuffer);
-        mat.SetFloat("_MaxValue", maxPopValue);
+        mat.SetFloat("_MaxValue", data.PeakCellPopulation);
         mat.SetMatrix("_FlatMapTransform", flatMapTransform.localToWorldMatrix);
         mat.SetMatrix("_GlobeTransform", globeMapTransform.localToWorldMatrix);
-        Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, instanceCount);
-    }
-
-    private IEnumerable<PopulationDataPoint> GetPopulationData()
-    {
-        string[] lines = populationDataSource.text.Split('\n');
-        for (int y = 0; y < DataY; y++)
-        {
-            string[] cells = lines[y].Split(' ');
-            for (int x = 0; x < DataX; x++)
-            {
-                float populationVal = Convert.ToSingle(cells[x]);
-                
-                if(populationVal > 0)
-                {
-                    float retX = (float)x / DataX;
-                    float retY = (float)y / DataY;
-                    yield return new PopulationDataPoint(retX, retY, populationVal);
-                }
-            }
-        }
-    }
-
-    private struct PopulationDataPoint
-    {
-        public float X { get; }
-        public float Y { get; }
-        public float Population { get; }
-
-        public PopulationDataPoint(float x, float y, float population)
-        {
-            X = x;
-            Y = y;
-            Population = population;
-        }
+        Graphics.DrawMeshInstancedProcedural(mesh, 0, mat, boundsSource.bounds, data.CellsToRender.Count);
     }
 }
