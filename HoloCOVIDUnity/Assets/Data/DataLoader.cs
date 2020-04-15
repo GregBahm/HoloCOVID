@@ -8,9 +8,9 @@ using UnityEngine;
 public class DataLoader : MonoBehaviour
 {
     [SerializeField]
-    private int rows;
+    private int width;
     [SerializeField]
-    private int columns;
+    private int height;
     [SerializeField]
     private TextAsset populationMap;
     [SerializeField]
@@ -19,14 +19,16 @@ public class DataLoader : MonoBehaviour
     private TextAsset nationIdsMap;
     [SerializeField]
     private TextAsset nationIdsTable;
-
+    [SerializeField]
+    private TextAsset covidReport;
     public SourceData GetData()
     {
-        return new SourceData(rows, 
-            columns, 
+        return new SourceData(width, 
+            height, 
             populationMap.text, 
             ageMaps.Select(item => item.text).ToArray(), 
             nationIdsMap.text, 
-            nationIdsTable.text);
+            nationIdsTable.text,
+            covidReport.text);
     }
 }

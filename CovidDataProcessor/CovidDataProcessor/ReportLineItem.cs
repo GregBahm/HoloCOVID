@@ -1,4 +1,6 @@
-﻿namespace CovidDataProcessor
+﻿using System;
+
+namespace CovidDataProcessor
 {
     public class ReportLineItem
     {
@@ -28,6 +30,11 @@
             Deaths = deaths;
             Recovered = recovered;
             LineType = lineType;
+        }
+
+        public string GetReportLine()
+        {
+            return string.Format("{0},{1},{2},{3},{4},{5},{6}", Day, Latitude, Longitude, Confirmed, Deaths, Recovered, LineType == LineItemType.Point);
         }
     }
 }

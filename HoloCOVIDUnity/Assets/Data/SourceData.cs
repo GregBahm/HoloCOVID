@@ -6,43 +6,101 @@ using UnityEngine;
 
 public class SourceData
 {
-    public int Rows { get; }
-    public int Columns { get; }
+    public int Width { get; }
+    public int Height { get; }
     private readonly ReadOnlyDictionary<int, Nation> nationTable;
     public Nation[] Nations { get; }
 
     public ReadOnlyCollection<CellData> CellsToRender { get; }
 
+    public int DaysOfData { get; }
+
     public float MaxCellPopulation { get; }
     public float MaxCellMortality { get; }
 
-    public SourceData(int rows,
-        int columns,
+    private readonly CellData[,] grid;
+
+    public SourceData(int width,
+        int height,
         string populationMapSource,
         string[] ageMapsSource,
         string nationIdsMapSource,
-        string nationIdsTableSource)
+        string nationIdsTableSource,
+        string covidReportSource)
     {
-        Rows = rows;
-        Columns = columns;
+        IEnumerable<ReportLineItem> reportItems = LoadReportItems(covidReportSource).ToArray();
+        DaysOfData = reportItems.Max(item => item.Day) + 1;
+        Width = width;
+        Height = height;
         nationTable = GetNationsTable(nationIdsTableSource);
         float[,] populationData = LoadFloats(populationMapSource);
         AgeData[,] ageData = GetAgeData(ageMapsSource);
         int[,] nationData = LoadInts(nationIdsMapSource);
-        CellsToRender = GetGridData(populationData, ageData, nationData).ToList().AsReadOnly();
+        grid = GetGridData(populationData, ageData, nationData);
+        CellsToRender = GetCellsToRender().ToList().AsReadOnly();
         MaxCellPopulation = CellsToRender.Max(item => item.Population);
         MaxCellMortality = CellsToRender.Max(item => item.AgeData.TotalMaxMortality);
         Nations = nationTable.Values.ToArray();
+
+        FilterReportItemsIntoData(reportItems);
+    }
+
+    private void FilterReportItemsIntoData(IEnumerable<ReportLineItem> reportItems)
+    {
+        foreach (ReportLineItem item in reportItems)
+        {
+            int cellX = GetIndexFromLongitude(item.Longitude);
+            int cellY = GetIndexFromLatitude(item.Latitude);
+
+            CellData cell = grid[cellX, cellY];
+            //TODO: Handle the populaion filtering
+            cell.AddCaseData(item.Day, item.Confirmed, item.Deaths, item.Recovered);
+        }
+    }
+
+    private IEnumerable<CellData> GetCellsToRender()
+    {
+        for (int x = 0; x < Width; x++)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                CellData item = this.grid[x, y];
+                if(item.Nation != null && item.Nation.Id != 32767) // water
+                {
+                    yield return item;
+                }
+            }
+        }
+    }
+
+    private int GetIndexFromLongitude(float longitude)
+    {
+        int ret = (int)(longitude + 180);
+        return ret % 360;
+    }
+
+    private int GetIndexFromLatitude(float latitude)
+    {
+        int ret = (int)(latitude + 90);
+        return ret % 180;
+    }
+
+    private IEnumerable<ReportLineItem> LoadReportItems(string covidReportSource)
+    {
+        foreach (string line in covidReportSource.Split('\n'))
+        {
+            yield return ReportLineItem.LoadFromLine(line);
+        }
     }
 
     private float[,] LoadFloats(string dataTable)
     {
-        float[,] ret = new float[Columns, Rows];
+        float[,] ret = new float[Width, Height];
         string[] lines = dataTable.Split('\n');
-        for (int y = 0; y < Rows; y++)
+        for (int y = 0; y < Height; y++)
         {
             string[] cells = lines[y].Split(' ');
-            for (int x = 0; x < Columns; x++)
+            for (int x = 0; x < Width; x++)
             {
                 ret[x, y] = Convert.ToSingle(cells[x]);
             }
@@ -52,11 +110,11 @@ public class SourceData
 
     private AgeData[,] GetAgeData(string[] ageMapsSource)
     {
-        AgeData[,] ret = new AgeData[Columns, Rows];
+        AgeData[,] ret = new AgeData[Width, Height];
         float[][,] items = ageMapsSource.Select(item => LoadFloats(item)).ToArray();
-        for (int x = 0; x < Columns; x++)
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < Rows; y++)
+            for (int y = 0; y < Height; y++)
             {
                 IEnumerable<float> ageDatum = items.Select(item => item[x, y]);
                 ret[x, y] = new AgeData(ageDatum);
@@ -67,12 +125,12 @@ public class SourceData
     
     private int[,] LoadInts(string nationIdsMapSource)
     {
-        int[,] ret = new int[Columns, Rows];
+        int[,] ret = new int[Width, Width];
         string[] lines = nationIdsMapSource.Split('\n');
-        for (int y = 0; y < Rows; y++)
+        for (int y = 0; y < Height; y++)
         {
             string[] cells = lines[y].Split(' ');
-            for (int x = 0; x < Columns; x++)
+            for (int x = 0; x < Width; x++)
             {
                 ret[x, y] = Convert.ToInt32(cells[x]);
             }
@@ -80,24 +138,28 @@ public class SourceData
         return ret;
     }
 
-    private IEnumerable<CellData> GetGridData(float[,] populationData, AgeData[,] ageData, int[,] nationData)
+    private CellData[,] GetGridData(float[,] populationData, AgeData[,] ageData, int[,] nationData)
     {
-        for (int x = 0; x < Columns; x++)
+        CellData[,] ret = new CellData[Width, Height];
+
+        for (int x = 0; x < Width; x++)
         {
-            for (int y = 0; y < Rows; y++)
+            for (int y = 0; y < Height; y++)
             {
                 int nationalId = nationData[x, y];
                 float population = Mathf.Max(0, populationData[x, y]);
-                if (nationTable.ContainsKey(nationalId) && nationalId != 32767)
+                Nation nation = null;
+                if (nationTable.ContainsKey(nationalId))
                 {
-                    Nation nation = nationTable[nationalId];
-                    AgeData age = ageData[x, y];
-                    float xVal = (float)x / Columns;
-                    float yVal = (float)y / Rows;
-                    yield return new CellData(xVal, yVal, population, nation, age);
+                    nation = nationTable[nationalId];
                 }
+                AgeData age = ageData[x, y];
+                float xVal = (float)x / Width;
+                float yVal = (float)y / Height;
+                ret[x,y] = new CellData(xVal, yVal, population, nation, age, DaysOfData);
             }
         }
+        return ret;
     }
 
     private ReadOnlyDictionary<int, Nation> GetNationsTable(string nationIdsTableSource)
