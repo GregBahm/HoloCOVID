@@ -2,9 +2,9 @@
 {
 	Properties
 	{
-		_Globification("Globification", Range(0, 1)) = 0
 		_GlobeHeight("Globe Height", Range(0, 1)) = 1
 		_FlatMapHeight("Flat Map Height", Range(0, 1)) = 1
+		_PopVersusRisk("Total Pop vs Total Risk", Range(0, 1)) = 1
 	}
 	SubShader
 	{
@@ -26,7 +26,8 @@
 			{
 				float xOffset;
 				float zOffset;
-				float populationValue;
+				float populationValue; 
+				float maxMortality;
 				int nationId;
 			};
 
@@ -44,11 +45,13 @@
 
 			float4x4 _FlatMapTransform;
 			float4x4 _GlobeTransform;
-			float _MaxValue;
+			float _MaxPop;
+			float _MaxMortality;
 			float _Globification; 
 			float _GlobeHeight;
 			float _FlatMapHeight;
 			int _NationToHighlight;
+			float _PopVersusRisk;
 
 			#define PI 3.141
 			
@@ -68,7 +71,11 @@
 			{
 				float retX = (cubePos.x / Columns + datum.xOffset) - .5;
 				float retZ = (cubePos.z / Rows + (1 - datum.zOffset)) - .5;
-				float retY = (cubePos.y + .5) * datum.populationValue / _MaxValue;
+
+				float popHeightVal = datum.populationValue / _MaxPop;
+				float mortalityHeightVal = datum.maxMortality / _MaxMortality;
+				float heightVal = lerp(popHeightVal, mortalityHeightVal, _PopVersusRisk);	
+				float retY = (cubePos.y + .5) * heightVal;
 				return float3(retX, retY, retZ);
 			}
 
@@ -87,7 +94,7 @@
                 v2f o;
 
                 o.vertex = mul(UNITY_MATRIX_VP, float4(worldPos, 1.0f));
-				o.popVal = datum.populationValue / _MaxValue;
+				o.popVal = datum.populationValue / _MaxPop;
 				o.objSpace = v.vertex + float3(0, .5, 0);
 				o.normal = v.normal;
 				o.flatMapPosition = basePoint;

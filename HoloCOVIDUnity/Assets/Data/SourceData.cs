@@ -13,7 +13,8 @@ public class SourceData
 
     public ReadOnlyCollection<CellData> CellsToRender { get; }
 
-    public float PeakCellPopulation { get; }
+    public float MaxCellPopulation { get; }
+    public float MaxCellMortality { get; }
 
     public SourceData(int rows,
         int columns,
@@ -29,7 +30,8 @@ public class SourceData
         AgeData[,] ageData = GetAgeData(ageMapsSource);
         int[,] nationData = LoadInts(nationIdsMapSource);
         CellsToRender = GetGridData(populationData, ageData, nationData).ToList().AsReadOnly();
-        PeakCellPopulation = CellsToRender.Max(item => item.Population);
+        MaxCellPopulation = CellsToRender.Max(item => item.Population);
+        MaxCellMortality = CellsToRender.Max(item => item.AgeData.TotalMaxMortality);
         Nations = nationTable.Values.ToArray();
     }
 
@@ -84,10 +86,10 @@ public class SourceData
         {
             for (int y = 0; y < Rows; y++)
             {
-                float population = populationData[x, y];
-                if(population > 0)
+                int nationalId = nationData[x, y];
+                float population = Mathf.Max(0, populationData[x, y]);
+                if (nationTable.ContainsKey(nationalId) && nationalId != 32767)
                 {
-                    int nationalId = nationData[x, y];
                     Nation nation = nationTable[nationalId];
                     AgeData age = ageData[x, y];
                     float xVal = (float)x / Columns;

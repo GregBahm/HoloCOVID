@@ -21,6 +21,9 @@ public class MainScript : MonoBehaviour
     [SerializeField]
     private Mesh mesh;
 
+    [Range(0, 1)]
+    public float Globification;
+
     [SerializeField]
     private Transform flatMapTransform;
     [SerializeField]
@@ -56,9 +59,11 @@ public class MainScript : MonoBehaviour
     private void Update()
     {
         mat.SetBuffer("_PopulationData", populationDataBuffer);
-        mat.SetFloat("_MaxValue", data.PeakCellPopulation);
+        mat.SetFloat("_MaxPop", data.MaxCellPopulation);
+        mat.SetFloat("_MaxMortality", data.MaxCellMortality);
         mat.SetMatrix("_FlatMapTransform", flatMapTransform.localToWorldMatrix);
         mat.SetMatrix("_GlobeTransform", globeMapTransform.localToWorldMatrix);
+        mat.SetFloat("_Globification", Globification);
 
         int idToHlighlight = NationToHighlight == 0 ? -1 : data.Nations[NationToHighlight - 1].Id;
         mat.SetInt("_NationToHighlight", idToHlighlight);

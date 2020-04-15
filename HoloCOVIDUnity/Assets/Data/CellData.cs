@@ -21,6 +21,6 @@
 
     public BufferDataPoint GetBufferDatum()
     {
-        return new BufferDataPoint(X, Y, Population, Nation.Id);
+        return new BufferDataPoint(X, Y, Population, AgeData.TotalMaxMortality, Nation.Id);
     }
 }

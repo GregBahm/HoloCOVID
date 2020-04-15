@@ -2,12 +2,15 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
+*.vs
 /HoloCOVIDUnity/.vs/HoloCOVIDUnity/v15
 /HoloCOVIDUnity/Library
 /HoloCOVIDUnity/Logs
 /HoloCOVIDUnity/obj/Debug
 /HoloCOVIDUnity/Temp
-*.sln
-*.csproj
+/HoloCOVIDUnity/*.sln
+/HoloCOVIDUnity/*.csproj
 /HoloCOVIDUnity/Packages
+/CovidDataProcessor/CovidDataProcessor/bin
+/CovidDataProcessor/CovidDataProcessor/obj
+/CovidDataProcessor/CovidDataProcessor/GoogleMapsKey.txt
