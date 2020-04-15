@@ -19,6 +19,7 @@ public class SourceData
     public float MaxCellMortality { get; }
 
     private readonly CellData[,] grid;
+    private readonly NationDistributionMap distributionMap;
 
     public SourceData(int width,
         int height,
@@ -41,6 +42,7 @@ public class SourceData
         MaxCellPopulation = CellsToRender.Max(item => item.Population);
         MaxCellMortality = CellsToRender.Max(item => item.AgeData.TotalMaxMortality);
         Nations = nationTable.Values.ToArray();
+        distributionMap = new NationDistributionMap(Nations, CellsToRender);
 
         FilterReportItemsIntoData(reportItems);
     }
@@ -53,8 +55,14 @@ public class SourceData
             int cellY = GetIndexFromLatitude(item.Latitude);
 
             CellData cell = grid[cellX, cellY];
-            //TODO: Handle the populaion filtering
-            cell.AddCaseData(item.Day, item.Confirmed, item.Deaths, item.Recovered);
+            if(item.LineType == ReportLineItem.LineItemType.Point)
+            {
+                cell.AddCaseData(item.Day, item.Confirmed, item.Deaths, item.Recovered);
+            }
+            else
+            {
+                distributionMap.DistributItem(cell.Nation, item);
+            }
         }
     }
 
@@ -81,8 +89,9 @@ public class SourceData
 
     private int GetIndexFromLatitude(float latitude)
     {
-        int ret = (int)(latitude + 90);
-        return ret % 180;
+        float param = (latitude + 90) / 180;
+        param = 1 - param;
+        return (int)(param * 180);
     }
 
     private IEnumerable<ReportLineItem> LoadReportItems(string covidReportSource)

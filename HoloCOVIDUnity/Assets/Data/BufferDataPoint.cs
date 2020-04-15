@@ -6,11 +6,12 @@
     public float MaxMortaility { get; }
     public int NationId { get; }
 
-    public const int Stride = sizeof(float) +
-        sizeof(float) +
-        sizeof(float) +
-        sizeof(float) +
-        sizeof(int);
+    public const int Stride = 
+        sizeof(float) + // X
+        sizeof(float) + // Y
+        sizeof(float) + // Population
+        sizeof(float) + // MaxMortality
+        sizeof(int); // NationID
 
     public BufferDataPoint(float x, float y, float population, float maxMortality, int nationId)
     {
