@@ -23,6 +23,8 @@ using Microsoft.Windows.UI.Input.Spatial;
 
 public class Hands : MonoBehaviour
 {
+    public static Hands Instance { get; private set; }
+
     #if UNITY_WSA
     private static readonly HandJointKind[] jointIndices = new HandJointKind[]
     {
@@ -125,6 +127,11 @@ public class Hands : MonoBehaviour
     }
 
     private SpatialInteractionManager spatialInteractionManager = null;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {

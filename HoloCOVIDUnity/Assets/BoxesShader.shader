@@ -4,6 +4,9 @@
 	{
 		_GlobeHeight("Globe Height", Range(0, 1)) = 1
 		_FlatMapHeight("Flat Map Height", Range(0, 1)) = 1
+		_PopCol("Population Color", Color) = (1,1,1,1)
+		_RiskCol("Risk Color", Color) = (1,1,1,1)
+		_CovidCol("Covid Color", Color) = (1,1,1,1)
 	}
 	SubShader
 	{
@@ -123,6 +126,17 @@
                 return o;
             } 
 
+			float3 _PopCol;
+			float3 _RiskCol;
+			float3 _CovidCol;
+
+			float3 GetHighTint()
+			{
+				float3 ret = lerp(_PopCol, _RiskCol, _RiskWeight);
+				ret = lerp(ret, _CovidCol * 2, _CovidWeight);
+				return ret;
+			}
+
             fixed4 frag (v2f i) : SV_Target
             {
 				float lutVal = i.heightVal * i.objSpace.y;
@@ -130,8 +144,8 @@
 				float zorp = pow(lutVal, .3);
 				float anotherInterestingValue = lerp(zorp, hmm, saturate(i.normal.y));
 
-				float3 highTint = float3(.5, 1, 0.25);
 				float3 lowTint = float3(.5, .5, .5);
+				float3 highTint = GetHighTint();
 				float3 col = lerp(lowTint, highTint, i.heightVal);
 				col += col * anotherInterestingValue;
 				col += anotherInterestingValue * .2;

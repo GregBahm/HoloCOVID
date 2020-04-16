@@ -68,7 +68,7 @@ Material:
     - _FlatMapHeight: 0.307
     - _GlobeHeight: 0.244
     - _GlobeRadius: 0.5
-    - _Globification: 0.28948224
+    - _Globification: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -86,4 +86,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CovidCol: {r: 1, g: 0, b: 0.039884567, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _PopCol: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+    - _RiskCol: {r: 1, g: 0.37272787, b: 0, a: 1}
