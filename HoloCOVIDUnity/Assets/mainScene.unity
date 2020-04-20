@@ -491,7 +491,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564073640}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 757284a065c6925458ee5a8c8b6616fa, type: 3}
   m_Name: 
@@ -521,7 +521,7 @@ MonoBehaviour:
   PopulationButton: {fileID: 5854965497651236448}
   RiskButton: {fileID: 266473095}
   CovidButton: {fileID: 2052351422}
-  CurrentMapState: 0
+  CurrentMapState: 1
   CurrentToolState: 0
   CurrentVisualState: 0
 --- !u!4 &564073645
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b70062ab66e561044aea8e93eaebcf02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interaction: {fileID: 564073644}
   hands: {fileID: 1387034112}
   mainMapFocus: {fileID: 1877870377}
   mainTransform: {fileID: 1877870378}
@@ -2906,7 +2907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610113650330768499}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.010037584, y: -0.0017023027, z: 0}
+  m_LocalPosition: {x: 0.01004, y: 0.00017, z: 0}
   m_LocalScale: {x: 0.85757, y: 0.85757, z: 0.85757}
   m_Children: []
   m_Father: {fileID: 759052030}

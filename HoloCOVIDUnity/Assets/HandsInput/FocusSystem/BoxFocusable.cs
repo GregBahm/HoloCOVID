@@ -13,6 +13,10 @@ public class BoxFocusable : FocusableItemBehavior
 
     public override float GetDistanceToPointer(Vector3 pointerPos)
     {
+        if(box.bounds.Contains(pointerPos))
+        {
+            return 0;
+        }
         Vector3 closest = box.ClosestPoint(pointerPos);
         return (closest - pointerPos).magnitude;
     }

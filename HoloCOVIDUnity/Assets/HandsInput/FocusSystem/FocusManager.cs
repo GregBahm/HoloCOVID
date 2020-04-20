@@ -78,7 +78,7 @@ public class FocusManager : MonoBehaviour
         {
             Vector3 pointer = item.Source == FocusSource.Fingertip ? pokePoint : grabPoint;
             float dist = item.GetDistanceToPointer(pointer);
-            if (dist < item.ActivationDistance && dist < closestDistance)
+            if (dist <= item.ActivationDistance && dist < closestDistance)
             {
                 ret = item;
                 closestDistance = dist;

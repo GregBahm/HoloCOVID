@@ -557,5 +557,5 @@ MonoBehaviour:
   focusType: 1
   isFocusable: 1
   priority: 1
-  activationDistance: 0.03
+  activationDistance: 0
   box: {fileID: 5706072160243126593}

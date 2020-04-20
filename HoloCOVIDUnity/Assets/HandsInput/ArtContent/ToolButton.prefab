@@ -334,7 +334,7 @@ MonoBehaviour:
   focusType: 1
   isFocusable: 1
   priority: 1
-  activationDistance: 0.03
+  activationDistance: 0
   box: {fileID: 3643679936443358655}
 --- !u!114 &7264617858392027955
 MonoBehaviour:
@@ -349,7 +349,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 2973880505820786405}
-  meshRenderer: {fileID: 0}
 --- !u!1 &6873134776946565310
 GameObject:
   m_ObjectHideFlags: 0

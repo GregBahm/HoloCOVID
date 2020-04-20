@@ -31,19 +31,7 @@ public class BoxButton : MonoBehaviour
     {
         if (FocusManager.Instance.FocusedItem == focus)
         {
-            Vector3 fingerTip = Hands.Instance.RightHandProxy.IndexTip.position;
-            Vector3 localFingerTip = transform.InverseTransformPoint(fingerTip);
-            if (localFingerTip.z < 0)
-            {
-                currentState = State.HoveringOver;
-            }
-            else
-            {
-                if(currentState == State.HoveringOver || currentState == State.Pressing)
-                {
-                    currentState = State.Pressing;
-                }
-            }
+            currentState = State.Pressing;
         }
         else
         {
