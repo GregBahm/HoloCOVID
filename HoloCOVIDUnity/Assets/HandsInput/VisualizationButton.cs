@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class VisualizationButton : MonoBehaviour
@@ -8,6 +9,9 @@ public class VisualizationButton : MonoBehaviour
 
     [SerializeField]
     private Transform titleText;
+
+    [SerializeField]
+    private TMP_Text descriptionText;
 
     private float pressedness;
 
@@ -41,6 +45,8 @@ public class VisualizationButton : MonoBehaviour
 
         Vector3 targetTitlePosition = isPressed ? expandedTitlePosition : baseTitlePosition;
         titleText.localPosition = Vector3.Lerp(titleText.localPosition, targetTitlePosition, Time.deltaTime * 4f);
+
+        descriptionText.color = new Color(1, 1, 1, pressedness);
     }
 
     private Vector3 GetTargetPosition(bool isPressed, bool isPushed)

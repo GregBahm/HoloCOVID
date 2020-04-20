@@ -23,6 +23,7 @@
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
 				float3 normal : NORMAL;
+				float3 color : COLOR0;
             };
 
             struct v2f
@@ -31,6 +32,7 @@
                 float4 vertex : SV_POSITION;
 				float3 normal : NORMAL;
 				float3 viewDir : TEXCOORD1;
+				float3 color : COLOR0;
             };
 
 			float4 _HighColor;
@@ -43,6 +45,7 @@
                 o.uv = v.uv;
 				o.normal = v.normal;
 				o.viewDir = UnityObjectToViewPos(v.vertex);
+				o.color = v.color;
                 return o;
             }
 
@@ -51,7 +54,7 @@
 				i.viewDir = normalize(i.viewDir);
 				float theDot = dot(i.viewDir, i.normal);
 				float shade = (theDot + 1) * .25;
-				shade = pow(shade, .5);
+				shade = pow(shade, .5) * .5;
 				return shade;
             }
             ENDCG
