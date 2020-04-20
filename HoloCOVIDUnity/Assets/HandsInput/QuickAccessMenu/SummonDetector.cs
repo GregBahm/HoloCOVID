@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SummonDetector : MonoBehaviour
 {
-    public UiPositionCore PositionCore;
-
     public bool IsSummoned { get; private set; }
+
+    private HandMountedUiController PositionCore { get { return HandMountedUiController.Instance; } }
 
     [Range(0, 1)]
     public float PalmSummonThreshold;

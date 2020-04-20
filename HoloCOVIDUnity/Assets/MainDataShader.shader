@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BoxesShader"
+﻿Shader "Unlit/MainDataShader"
 {
 	Properties
 	{
@@ -151,7 +151,7 @@
 				col += anotherInterestingValue * .2;
 				col = pow(col, 2);
 				
-				float3 background = lerp(float3(0, 0, 0), float3(0.2, 0.2,.2), i.flatMapPosition.z + .5) ;
+				float3 background = lerp(float3(0, 0, 0), float3(0.2, 0.2,1), i.flatMapPosition.z + .5) ;
 				col = lerp(col, background, saturate(-i.normal.y));
 				col += col * float3(-1, .75, 2) * i.highlighting;
 

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BoxesMat
-  m_Shader: {fileID: 4800000, guid: af3259ec00cd06b4390aa7a176ba782f, type: 3}
+  m_Name: RotationIcon
+  m_Shader: {fileID: 10760, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,12 +39,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Lut:
-        m_Texture: {fileID: 2800000, guid: 92a3ac34922d2c845b3752cef74aec29, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 607058c297b2de74c8f4a1c02e7f0610, type: 3}
+        m_Texture: {fileID: 2800000, guid: f748283055d525744a39475ed20a27bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -60,15 +56,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AnotherTester: 5.39
     - _BumpScale: 1
+    - _ColorMask: 15
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FlatMapHeight: 0.307
-    - _GlobeHeight: 0.244
-    - _GlobeRadius: 0.5
-    - _Globification: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -76,17 +68,17 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ShowAgeDistribution: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TesterX: 3.14
-    - _TesterY: -6.28
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _UVSec: 0
+    - _UseUIAlphaClip: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CovidCol: {r: 1, g: 0, b: 0.039884567, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _PopCol: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
-    - _RiskCol: {r: 1, g: 0.37272787, b: 0, a: 1}
