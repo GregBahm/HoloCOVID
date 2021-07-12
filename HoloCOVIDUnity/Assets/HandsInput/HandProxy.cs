@@ -88,13 +88,21 @@ public class HandProxy
     {
         get
         {
-            if(allJoints == null)
+            if (allJoints == null)
             {
                 allJoints = GetAllJoints();
             }
             return allJoints;
         }
     }
+
+    public Vector3 ModelFingerPointing = new Vector3(0, 0, 0);
+    public Vector3 ModelPalmFacing = new Vector3(0, 0, 0);
+
+    public Vector3 WristPositionOffset = new Vector3(.06f, 0, 0);
+    public Vector3 WristRotationOffset = new Vector3(-30, 90, -90);
+
+
     private Transform[] allJoints;
     private Transform[] GetAllJoints()
     {

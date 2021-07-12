@@ -68,7 +68,7 @@ Material:
     - _FlatMapHeight: 0.307
     - _GlobeHeight: 0.244
     - _GlobeRadius: 0.5
-    - _Globification: 1
+    - _Globification: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1

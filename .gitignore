@@ -10,7 +10,6 @@
 /HoloCOVIDUnity/Temp
 /HoloCOVIDUnity/*.sln
 /HoloCOVIDUnity/*.csproj
-/HoloCOVIDUnity/Packages
 /CovidDataProcessor/CovidDataProcessor/bin
 /CovidDataProcessor/CovidDataProcessor/obj
 /CovidDataProcessor/CovidDataProcessor/GoogleMapsKey.txt
